@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: ist_consulta_movimientos
+  cloud:
+    config:
+      enabled: true
+      discovery:
+        enabled: true
+        serviceId: SENTENCE-CONFIG
+
+
+server:
+  port: 8046
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8011/eureka/
+
+---
+spring:  
+  datasource:
+    url: jdbc:oracle:thin:@//10.113.46.79:1541/wcsbdi
+    username: TER_READ
+    password: TER_READ_pwd0
+    driver-class-name: oracle.jdbc.OracleDriver
