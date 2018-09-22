@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.test.consultamovimiento.bean.MovAgrupProdAndPartnertsByMsisdn;
+import org.test.consultamovimiento.exception.PartitionException;
 import org.test.consultamovimiento.jdbc.NamedParameterStatement;
 import org.test.consultamovimiento.jdbc.SQLReader;
 import org.test.consultamovimiento.jdbc.SqlUtils;
@@ -35,7 +36,7 @@ public class MovDaoImpl implements MovDao {
 	@Autowired
 	DataSource dataSource;	
 	
-	public Collection<?> getCargosAndSuscripcionesTercerosByMsisdnAndDate(String msisdn, Date initdate, Date enddate) throws SQLException, IOException, ParseException {
+	public List<MovAgrupProdAndPartnertsByMsisdn> getCargosAndSuscripcionesTercerosByMsisdnAndDate(String msisdn, Date initdate, Date enddate) throws SQLException, IOException, ParseException, PartitionException {
 		Connection conn = dataSource.getConnection();
 		NamedParameterStatement namedParameterStatement = null;
 		ResultSet rs = null;		

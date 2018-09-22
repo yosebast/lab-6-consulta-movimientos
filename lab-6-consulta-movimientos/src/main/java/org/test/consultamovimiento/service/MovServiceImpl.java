@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.test.consultamovimiento.bean.IsterDTO;
 import org.test.consultamovimiento.dao.MovDao;
 import org.test.consultamovimiento.exception.MovException;
+import org.test.consultamovimiento.exception.PartitionException;
 import org.test.consultamovimiento.utils.KyuwDateUtils;
 
 @Service
@@ -22,7 +23,9 @@ public class MovServiceImpl implements MovService {
 	
 	private static final String ERROR_MSISDN_NO_ENCONTRADO = "600, El MSISDN informado no existe para el Customer_ID informado en la BBDD";
 	private static final String ERROR_PARSEO_FECHAS = "124, No se han introducido correctamente las fechas Fecha_inicial y Fecha_final";
-	private static final String ERROR_BBDD = "118, Error al recuperar los datos de la bbdd";	
+	private static final String ERROR_BBDD = "118, Error al recuperar los datos de la bbdd";
+	private static final String ERROR_PATH = "115, No puede encontrar el fichero sql";
+	private static final String ERROR_PARTICIONES = "116, Error al construir las particiones";
 	
 	@Autowired
 	MovDao movDao;	
@@ -43,7 +46,10 @@ public class MovServiceImpl implements MovService {
 			throw new MovException(ERROR_PARSEO_FECHAS);
 		} catch (IOException e) {
 			LOGGER.error("MovServiceImpl - getCargosAndSuscripcionesTercerosByMsisdnAndDate:{}", e.getMessage());
-			throw new MovException(ERROR_PARSEO_FECHAS);//ESTO HAY QUE AGREAGAR UN TIPO DE ERROR ioexception de que no encuentra la ruta
+			throw new MovException(ERROR_PATH);
+		} catch (PartitionException e) {
+			LOGGER.error("MovServiceImpl - getCargosAndSuscripcionesTercerosByMsisdnAndDate:{}", e.getMessage());
+			throw new MovException(ERROR_PARTICIONES);
 		}		
 		return isterDto;
 	}

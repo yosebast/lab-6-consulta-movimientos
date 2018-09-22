@@ -21,7 +21,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.test.consultamovimiento.exception.PartitionException;
 import org.test.consultamovimiento.utils.KyuwDateUtils;
 import org.test.consultamovimiento.utils.StringConstants;
 
@@ -66,7 +68,7 @@ public class SQLReader {
 		final String resourcePath = QUERYS_FOLDER + strFolder + filename + SQL_EXTENSION;
 		final InputStream inputStream = this.getClass().getResourceAsStream(resourcePath);
 		if(inputStream==null) {
-			throw new IOException("Can't find " + resourcePath);
+			throw new IOException("Error reading file: " + resourcePath);
 		}
 		everything = IOUtils.toString(inputStream, "UTF-8");
 		inputStream.close();		
@@ -101,8 +103,9 @@ public class SQLReader {
 	 * @param everything
 	 * @return
 	 * @throws ParseException
+	 * @throws PartitionException 
 	 */
-	public static String getQueryWithPartitions(Date initdate, Date enddate, String everything) throws ParseException {	
+	public static String getQueryWithPartitions(Date initdate, Date enddate, String everything) throws ParseException, PartitionException {	
 		
 		SimpleDateFormat formatter = new SimpleDateFormat(KyuwDateUtils.FORMAT_ISTER_DDMMYYYY);
 		List<String> dates = new ArrayList<String>();
@@ -126,6 +129,9 @@ public class SQLReader {
 			newFechas.add(KyuwDateUtils.obtainNewFormat(string, KyuwDateUtils.FORMAT_ISTER_DDMMYYYY, KyuwDateUtils.FORMAT_YYYYMMDD));
 		}
 		String query = getAllPartitions(newFechas);
+		if(StringUtils.isEmpty(query)) {
+			throw new PartitionException("Error build partitions");
+		}
 		return everything.replace(StringConstants.ALL_PARTITIONS, query).toUpperCase();
 	}
 
@@ -135,8 +141,8 @@ public class SQLReader {
 	 */
 	private static void getListMonday(Calendar date) {
 
-		int number_day = date.get(Calendar.DAY_OF_WEEK);
-		int getDaysUntilMonday = Calendar.SUNDAY - number_day; // dias que faltan para el primer domingo.
+		int day = date.get(Calendar.DAY_OF_WEEK);
+		int getDaysUntilMonday = Calendar.SUNDAY - day; // dias que faltan para el primer domingo.
 		if (getDaysUntilMonday <= 0) {
 			getDaysUntilMonday += 7;
 		}
@@ -151,19 +157,19 @@ public class SQLReader {
 	private static String getAllPartitions(List<String> fechas) {
 
 		StringBuilder sb = new StringBuilder();
-		StringBuilder SQuery = null;		
+		String sQuery = "";		
 		int i = 0;
 		for (String string : fechas) {
 			i++;
-			SQuery = (fechas.size() != i)
+			sQuery = (fechas.size() != i)
 					? sb.append(StringConstants.SELECT).append(StringConstants.SPACE).append(StringConstants.STAR_KEY)
 							.append(StringConstants.SPACE).append(StringConstants.FROM).append(StringConstants.SPACE)
 							.append(StringConstants.USUARIO_TABLA_PARTITIONS).append(string).append(StringConstants.ROUND_BRACKETS).append(StringConstants.SPACE)
-							.append(StringConstants.UNION_ALL).append(StringConstants.SPACE)
+							.append(StringConstants.UNION_ALL).append(StringConstants.SPACE).toString()
 					: sb.append(StringConstants.SELECT).append(StringConstants.SPACE).append(StringConstants.STAR_KEY)
 							.append(StringConstants.SPACE).append(StringConstants.FROM).append(StringConstants.SPACE)
-							.append(StringConstants.USUARIO_TABLA_PARTITIONS).append(string).append(StringConstants.ROUND_BRACKETS);
+							.append(StringConstants.USUARIO_TABLA_PARTITIONS).append(string).append(StringConstants.ROUND_BRACKETS).toString();
 		}		
-		return SQuery.toString();
+		return sQuery;
 	}
 }
