@@ -60,7 +60,7 @@ public class SQLReader {
 	 */		
 	public String getQuery(final QUERY_FOLDER folder, final String filename)
 			throws IOException {		
-		String everything = null;
+		String everything;
 		
 		final String strFolder = getQueryFolder(folder);		
 		final String resourcePath = QUERYS_FOLDER + strFolder + filename + SQL_EXTENSION;
@@ -81,7 +81,7 @@ public class SQLReader {
 	 * @return the query folder
 	 */
 	private String getQueryFolder(final QUERY_FOLDER folder) {
-		String value = "";
+		String value;
 
 		switch (folder) {
 		case ISTERCONSULTAMOVIMIENTOS:
