@@ -21,6 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.test.consultamovimiento.bean.IsterDTO;
 import org.test.consultamovimiento.bean.MovAgrupProdAndPartnertsByMsisdn;
+import org.test.consultamovimiento.comun.DataComunTest;
 import org.test.consultamovimiento.controller.ConsultaMovimientoController;
 import org.test.consultamovimiento.exception.MovException;
 import org.test.consultamovimiento.service.MovService;
@@ -29,7 +30,7 @@ import org.test.consultamovimiento.service.MovService;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class ConsultaMovimientoControllerTest {
+public class ConsultaMovimientoControllerTest extends DataComunTest {
 
 	@Mock
 	MovService movService;
@@ -42,14 +43,14 @@ public class ConsultaMovimientoControllerTest {
 	String initdate;
 	String enddate;
 	
+	@Override
 	@Before
 	public void setUp() {
 		customer_id = "2397";
 		msisdn = "691347667";
 		initdate = "09.09.2018";
-		enddate = "16.09.2018";
-	}
-	
+		enddate = "16.09.2018";		
+	}	
 	
 	@Test	
 	public void testGetCargosAndSuscripcionesTercerosByMsisdnAndDate() throws MovException {		
@@ -66,23 +67,6 @@ public class ConsultaMovimientoControllerTest {
 		isterDTO.setMessage("ok");
 	
 		return isterDTO;
-	}
-	
-	private Collection<?> getCollection() {	
-		List<MovAgrupProdAndPartnertsByMsisdn> list_movAgrupProdAndPartnertsByMsisdn = new ArrayList<MovAgrupProdAndPartnertsByMsisdn>();	
-		MovAgrupProdAndPartnertsByMsisdn movAgrupProdAndPartnertsByMsisdn = new MovAgrupProdAndPartnertsByMsisdn();
-		movAgrupProdAndPartnertsByMsisdn.setAgrupadores("agrupadores");
-		movAgrupProdAndPartnertsByMsisdn.setFlag_suscripcion("1");
-		movAgrupProdAndPartnertsByMsisdn.setIdtrans(2);
-		movAgrupProdAndPartnertsByMsisdn.setImporte(2.3);
-		movAgrupProdAndPartnertsByMsisdn.setMarket("market");
-		movAgrupProdAndPartnertsByMsisdn.setMsisdn("12345678");
-		movAgrupProdAndPartnertsByMsisdn.setMultisim("123");
-		movAgrupProdAndPartnertsByMsisdn.setProductName("netflix");
-		movAgrupProdAndPartnertsByMsisdn.setTimestamp("09/09/18");
-		list_movAgrupProdAndPartnertsByMsisdn.add(movAgrupProdAndPartnertsByMsisdn);
-		
-		return list_movAgrupProdAndPartnertsByMsisdn;
 	}	
-	
+
 }

@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class MovDaoImpl implements MovDao {
 		Connection conn = dataSource.getConnection();
 		NamedParameterStatement namedParameterStatement = null;
 		ResultSet rs = null;		
-		List<MovAgrupProdAndPartnertsByMsisdn> list_movAgrupProdAndPartnertsByMsisdn = new ArrayList<MovAgrupProdAndPartnertsByMsisdn>();		
+		List<MovAgrupProdAndPartnertsByMsisdn> listMovAgrupProdAndPartnertsByMsisdn = new ArrayList<MovAgrupProdAndPartnertsByMsisdn>();		
 		
 		try {
 			final SQLReader sqlReader = new SQLReader();
@@ -64,7 +63,7 @@ public class MovDaoImpl implements MovDao {
 				movAgrupProdAndPartnertsByMsisdn.setProductName(rs.getString("PRODUCTO_NAME"));
 				movAgrupProdAndPartnertsByMsisdn.setMarket(rs.getString("MARKET"));
 				movAgrupProdAndPartnertsByMsisdn.setFlag_suscripcion(rs.getString("FLAG_SUSCRIPCION"));
-				list_movAgrupProdAndPartnertsByMsisdn.add(movAgrupProdAndPartnertsByMsisdn);
+				listMovAgrupProdAndPartnertsByMsisdn.add(movAgrupProdAndPartnertsByMsisdn);
 				
 				if(LOGGER.isDebugEnabled()) {
 					LOGGER.debug("msisdn:{} | initdate:{} | enddate:{} | multisim:{} | fechaMov:{} | idtrans:{} | importe:{} | agrupadores:{} | productName:{} | market:{}", new Object[] {msisdn, initdate, enddate, rs.getString("MULTISIM"), rs.getTimestamp("FECHA").toString(), rs.getInt("IDTRANS"), rs.getDouble("IMPORTE"), rs.getString("NAME"), rs.getString("PRODUCTO_NAME"), rs.getString("MARKET")});
@@ -75,7 +74,7 @@ public class MovDaoImpl implements MovDao {
 			SqlUtils.closeNamedParameterStatement(namedParameterStatement);
 			conn.close();
 		}		
-		return list_movAgrupProdAndPartnertsByMsisdn;
+		return listMovAgrupProdAndPartnertsByMsisdn;
 	}
 
 

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,13 +17,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.test.consultamovimiento.bean.IsterDTO;
-import org.test.consultamovimiento.bean.MovAgrupProdAndPartnertsByMsisdn;
+import org.test.consultamovimiento.comun.DataComunTest;
 import org.test.consultamovimiento.dao.MovDao;
 import org.test.consultamovimiento.exception.MovException;
 import org.test.consultamovimiento.exception.PartitionException;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MovServiceImplTest {
+public class MovServiceImplTest extends DataComunTest {
 	
 	@Mock
 	MovDao movDao;
@@ -60,23 +59,6 @@ public class MovServiceImplTest {
 	 doThrow(MovException.class).when(movDao).getCargosAndSuscripcionesTercerosByMsisdnAndDate(Mockito.anyString(), Mockito.any(), Mockito.any());
 	 this.movServiceImpl.getCargosAndSuscripcionesTercerosByMsisdnAndDate(msisdn, initdate, enddate);
 	
-	}
-	
-	private List<MovAgrupProdAndPartnertsByMsisdn> getCollection() {	
-		List<MovAgrupProdAndPartnertsByMsisdn> list_movAgrupProdAndPartnertsByMsisdn = new ArrayList<MovAgrupProdAndPartnertsByMsisdn>();	
-		MovAgrupProdAndPartnertsByMsisdn movAgrupProdAndPartnertsByMsisdn = new MovAgrupProdAndPartnertsByMsisdn();
-		movAgrupProdAndPartnertsByMsisdn.setAgrupadores("agrupadores");
-		movAgrupProdAndPartnertsByMsisdn.setFlag_suscripcion("1");
-		movAgrupProdAndPartnertsByMsisdn.setIdtrans(2);
-		movAgrupProdAndPartnertsByMsisdn.setImporte(2.3);
-		movAgrupProdAndPartnertsByMsisdn.setMarket("market");
-		movAgrupProdAndPartnertsByMsisdn.setMsisdn("12345678");
-		movAgrupProdAndPartnertsByMsisdn.setMultisim("123");
-		movAgrupProdAndPartnertsByMsisdn.setProductName("netflix");
-		movAgrupProdAndPartnertsByMsisdn.setTimestamp("09/09/18");
-		list_movAgrupProdAndPartnertsByMsisdn.add(movAgrupProdAndPartnertsByMsisdn);
-		
-		return list_movAgrupProdAndPartnertsByMsisdn;
 	}
 	
 	@Test	
