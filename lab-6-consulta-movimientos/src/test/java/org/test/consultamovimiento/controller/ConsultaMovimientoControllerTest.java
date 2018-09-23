@@ -2,27 +2,19 @@ package org.test.consultamovimiento.controller;
 
 
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import org.test.consultamovimiento.bean.IsterDTO;
-import org.test.consultamovimiento.bean.MovAgrupProdAndPartnertsByMsisdn;
 import org.test.consultamovimiento.comun.DataComunTest;
-import org.test.consultamovimiento.controller.ConsultaMovimientoController;
 import org.test.consultamovimiento.exception.MovException;
 import org.test.consultamovimiento.service.MovService;
 
